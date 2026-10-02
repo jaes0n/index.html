@@ -69,7 +69,14 @@
 
 <body>
 
-  <div id="display">0</div>
+<div class="languages">
+  <button onclick="setLanguage('ko')">한국어</button>
+  <button onclick="setLanguage('en')">English</button>
+  <button onclick="setLanguage('ja')">日本語</button>
+  <button onclick="setLanguage('zh')">中文</button>
+</div>
+
+<div id="display">0</div>
 
   <div class="keypad">
     <button onclick="add(1)">1</button>
@@ -100,6 +107,11 @@
   <script>
     let number = "";
 
+    let language = "ko";
+
+function setLanguage(lang) {
+  language = lang;
+}
     function add(n) {
       number += n;
       document.getElementById("display").innerText = number;
@@ -113,13 +125,31 @@
     function callNumber() {
       if (!number) return;
 
-      const currentNumber = number;
+      let message = "";
+let voiceLanguage = "";
 
-      const msg = new SpeechSynthesisUtterance(
-        `${currentNumber}번 고객님, 메뉴가 준비되었습니다.`
-      );
+if (language === "ko") {
+  message = `${currentNumber}번 고객님, 주문하신 메뉴가 준비되었습니다.`;
+  voiceLanguage = "ko-KR";
+}
 
-      msg.lang = "ko-KR";
+if (language === "en") {
+  message = `Customer number ${currentNumber}, your order is ready.`;
+  voiceLanguage = "en-US";
+}
+
+if (language === "ja") {
+  message = `${currentNumber}番のお客様、ご注文のメニューができあがりました。`;
+  voiceLanguage = "ja-JP";
+}
+
+if (language === "zh") {
+  message = `${currentNumber}号顾客，您点的餐已经准备好了。`;
+  voiceLanguage = "zh-CN";
+}
+
+const msg = new SpeechSynthesisUtterance(message);
+msg.lang = voiceLanguage;
 
       speechSynthesis.cancel();
       speechSynthesis.speak(msg);
