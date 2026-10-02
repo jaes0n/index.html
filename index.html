@@ -69,13 +69,6 @@
 
 <body>
 
-<div class="languages">
-  <button onclick="setLanguage('ko')">한국어</button>
-  <button onclick="setLanguage('en')">English</button>
-  <button onclick="setLanguage('ja')">日本語</button>
-  <button onclick="setLanguage('zh')">中文</button>
-</div>
-
 <div id="display">0</div>
 
   <div class="keypad">
@@ -103,6 +96,13 @@
   <button class="cancel" onclick="cancelCall()">
     호출 취소
   </button>
+
+  <div class="languages">
+  <button onclick="setLanguage('ko')">한국어</button>
+  <button onclick="setLanguage('en')">English</button>
+  <button onclick="setLanguage('ja')">日本語</button>
+  <button onclick="setLanguage('zh')">中文</button>
+  </div>
 
   <script>
     let number = "";
