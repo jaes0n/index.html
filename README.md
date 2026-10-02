@@ -99,7 +99,7 @@ function callNumber() {
   const currentNumber = number;
 
   const msg = new SpeechSynthesisUtterance(
-    `${currentNumber}번 고객님, 메가 준비되었습니다.`
+    `${currentNumber}번 고객님, 메뉴가 준비되었습니다.`
   );
 
   msg.lang = "ko-KR";
