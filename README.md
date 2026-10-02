@@ -1,130 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>주문 호출기</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
 
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<title>주문 호출기</title>
-</head>
-  
-<style>
-body {
-  font-family: sans-serif;
-  text-align: center;
-  background: #111;
-  color: white;
-  margin: 0;
-}
-#display {
-  font-size: 60px;
-  margin: 20px 0;
-}
-.keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  padding: 12px;
-  max-width: 500px;
-  margin: 0 auto;
-}
-button {
-  font-size: 32px;
-  padding: 22px;
-  border-radius: 16px;
-  border: none;
-  background: #333;
-  color: white;
-}
-button:active {
-  background: #555;
-}
-.call {
-  background: #007aff;
-}
-.clear {
-  background: #ff3b30;
-}
-</style>
+  <title>주문 호출기</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #111;
+      color: white;
+      margin: 0;
+    }
+
+    #display {
+      font-size: 60px;
+      margin: 20px 0;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 12px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    button {
+      font-size: 32px;
+      padding: 22px;
+      border-radius: 16px;
+      border: none;
+      background: #333;
+      color: white;
+    }
+
+    button:active {
+      background: #555;
+    }
+
+    .call {
+      background: #007aff;
+    }
+
+    .clear {
+      background: #ff3b30;
+    }
+
+    .cancel {
+      margin-top: 15px;
+      background: #888;
+    }
+
+    #recent {
+      font-size: 18px;
+      opacity: 0.7;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="display">0</div>
+  <div id="display">0</div>
 
-<div class="keypad">
-  <button onclick="add(1)">1</button>
-  <button onclick="add(2)">2</button>
-  <button onclick="add(3)">3</button>
-  <button onclick="add(4)">4</button>
-  <button onclick="add(5)">5</button>
-  <button onclick="add(6)">6</button>
-  <button onclick="add(7)">7</button>
-  <button onclick="add(8)">8</button>
-  <button onclick="add(9)">9</button>
-  <button class="clear" onclick="clearDisplay()">C</button>
-  <button onclick="add(0)">0</button>
-  <button class="call" onclick="callNumber()">호출</button>
-</div>
+  <div class="keypad">
+    <button onclick="add(1)">1</button>
+    <button onclick="add(2)">2</button>
+    <button onclick="add(3)">3</button>
 
-<p id="recent" style="font-size:18px; opacity:0.7; margin-top:20px;">
-최근 호출: 없음
-</p>
-  
-<button onclick="cancelCall()" style="margin-top:15px; background:#888;">
-호출 취소
-</button>
+    <button onclick="add(4)">4</button>
+    <button onclick="add(5)">5</button>
+    <button onclick="add(6)">6</button>
 
-<audio id="ding" src="ding.mp3.m4a"preload="auto"></audio>
-  
-<script>
-let number = "";
+    <button onclick="add(7)">7</button>
+    <button onclick="add(8)">8</button>
+    <button onclick="add(9)">9</button>
 
-function add(n) {
-  number += n;
-  document.getElementById("display").innerText = number;
-}
+    <button class="clear" onclick="clearDisplay()">C</button>
+    <button onclick="add(0)">0</button>
+    <button class="call" onclick="callNumber()">호출</button>
+  </div>
 
-function clearDisplay() {
-  number = "";
-  document.getElementById("display").innerText = "0";
-}
+  <p id="recent">
+    최근 호출: 없음
+  </p>
 
-function callNumber() {
+  <button class="cancel" onclick="cancelCall()">
+    호출 취소
+  </button>
 
-  if (!number) return;
+  <audio id="ding" src="ding.mp3.m4a" preload="auto"></audio>
 
-  const currentNumber = number;
+  <script>
+    let number = "";
 
-  const msg = new SpeechSynthesisUtterance(
-    `${currentNumber}번 고객님, 메뉴가 준비되었습니다.`
-  );
+    function add(n) {
+      number += n;
+      document.getElementById("display").innerText = number;
+    }
 
-  msg.lang = "ko-KR";
+    function clearDisplay() {
+      number = "";
+      document.getElementById("display").innerText = "0";
+    }
 
-  const ding = document.getElementById("ding");
+    function callNumber() {
+      if (!number) return;
 
-  ding.currentTime = 0;
-  ding.play();
+      const currentNumber = number;
 
-  setTimeout(() => {
-    speechSynthesis.speak(msg);
-  }, 1400);
+      const msg = new SpeechSynthesisUtterance(
+        `${currentNumber}번 고객님, 주문하신 메뉴가 준비되었습니다.`
+      );
 
-  // 최근 호출 표시
-  document.getElementById("recent").innerText =
-    "최근 호출: " + currentNumber + "번";
+      msg.lang = "ko-KR";
 
-  // 자동 리셋
-  number = "";
-  document.getElementById("display").innerText = "0";
-}
-function cancelCall() {
-  speechSynthesis.cancel();
-}
-</script>
+      const ding = document.getElementById("ding");
+
+      ding.currentTime = 0;
+      ding.play();
+
+      setTimeout(() => {
+        speechSynthesis.speak(msg);
+      }, 1400);
+
+      document.getElementById("recent").innerText =
+        "최근 호출: " + currentNumber + "번";
+
+      number = "";
+      document.getElementById("display").innerText = "0";
+    }
+
+    function cancelCall() {
+      speechSynthesis.cancel();
+    }
+  </script>
 
 </body>
 </html>
