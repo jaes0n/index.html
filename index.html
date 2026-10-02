@@ -97,8 +97,6 @@
     호출 취소
   </button>
 
-  <audio id="ding" src="ding.mp3.m4a" preload="auto"></audio>
-
   <script>
     let number = "";
 
@@ -123,14 +121,8 @@
 
       msg.lang = "ko-KR";
 
-      const ding = document.getElementById("ding");
-
-      ding.currentTime = 0;
-      ding.play();
-
-      setTimeout(() => {
-        speechSynthesis.speak(msg);
-      }, 1400);
+      speechSynthesis.cancel();
+      speechSynthesis.speak(msg);
 
       document.getElementById("recent").innerText =
         "최근 호출: " + currentNumber + "번";
@@ -145,4 +137,4 @@
   </script>
 
 </body>
-</html>
+</html> 
